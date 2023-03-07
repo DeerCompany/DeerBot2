@@ -68,10 +68,10 @@ class MUSIC():
                 if not await check_domains(source):
                     await ctx.channel.send(f'{author.mention}, посилання некоректне!')
                     return
-                song_there = os.path.isfile('song.mp3')
+                song_there = os.path.isfile('sound/song.mp3')
                 try:
                     if song_there:
-                            os.remove('song.mp3')
+                            os.remove('sound/song.mp3')
                 except PermissionError:
                     await ctx.channel.send('Недостаньо прав для видалення!')
 
@@ -79,10 +79,10 @@ class MUSIC():
                 yt = YouTube(url)
                 video = yt.streams.filter(only_audio=True).first()
                 downloaded_file = video.download()
-                os.rename(downloaded_file, 'song.mp3')
+                os.rename(downloaded_file, 'sound/song.mp3')
                 print("Done") 
 
-                voice.play(discord.FFmpegPCMAudio(executable='ffmpeg/bin/ffmpeg.exe', source='song.mp3'))
+                voice.play(discord.FFmpegPCMAudio(executable='ffmpeg/bin/ffmpeg.exe', source='sound/song.mp3'))
             else:
                 voice.play(discord.FFmpegPCMAudio(executable='ffmpeg/bin/ffmpeg.exe',  source=f'{source}'))
         else:

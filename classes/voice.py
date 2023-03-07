@@ -13,7 +13,7 @@ class VOICE():
 
         params = command.split('!voice')
         engine = pyttsx3.init()
-        engine.save_to_file(params, 'voice.mp3')
+        engine.save_to_file(params, 'sound/voice.mp3')
         engine.runAndWait()
 
         if len(params) == 1:
@@ -31,4 +31,4 @@ class VOICE():
             await voice_channel.connect()
             voice = discord.utils.get(bot.voice_clients, guild = server)
 
-        voice.play(discord.FFmpegPCMAudio(executable='ffmpeg/bin/ffmpeg.exe',  source='voice.mp3'))
+        voice.play(discord.FFmpegPCMAudio(executable='ffmpeg/bin/ffmpeg.exe',  source='sound/voice.mp3'))
