@@ -10,6 +10,10 @@ from clear import CLEAR
 
 bot = commands.Bot(command_prefix=config['prefix'], intents=discord.Intents.all())
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> c9867361a5c9dcfaf6d6acc52ed6ed66a2549079
 # Music
 @bot.event
 async def on_ready():
