@@ -8,8 +8,18 @@ class MUSIC():
     def __init__(self):
         pass
 
+    server, server_id, name_channel = None, None, None
 
-    async def play(ctx, *, command = None):
+
+
+    async def play(self, ctx, command, bot):
+        domains = ['https://www.youtube.com/', 'http://www.youtube.com/', 'https://youtu.be/', 'http://youtu.be/']
+        async def check_domains(link):
+            for x in domains:
+                if link.startswith(x):
+                    return True
+            return False
+        
         name = ctx.channel.name
         if name == "music" or "тест":
             global server, server_id, name_channel
@@ -80,7 +90,7 @@ class MUSIC():
 
 
 
-    async def leave(ctx):
+    async def leave(self, ctx, bot):
         global server, name_channel
         voice = discord.utils.get(bot.voice_clients, guild=server)
         if voice.is_connected():
@@ -89,7 +99,7 @@ class MUSIC():
             await ctx.channel.send(f'{ctx.autor.mention}, бот вийшов з каналу!')
 
 
-    async def pause(ctx):
+    async def pause(self, ctx, bot):
         voice = discord.utils.get(bot.voice_clients, guild = server)
         if voice.is_playing():
             voice.pause()
@@ -97,7 +107,7 @@ class MUSIC():
             await ctx.channel.send('Музика на паузі!')
 
 
-    async def resume(ctx):
+    async def resume(self, ctx, bot):
         voice = discord.utils.get(bot.voice_clients, guild = server)
         if voice.is_paused():
             voice.resume()
@@ -105,6 +115,6 @@ class MUSIC():
             await ctx.channel.send('Музика вже грає!')
 
 
-    async def stop(ctx):
+    async def stop(self, bot):
         voice = discord.utils.get(bot.voice_clients, guild = server)
         voice.stop()
