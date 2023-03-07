@@ -6,7 +6,7 @@ from urllib.parse import quote
 from classes.ssp import SSP
 from classes.voice import VOICE
 from classes.clear import CLEAR
-
+d
 bot = commands.Bot(command_prefix=config['prefix'], intents=discord.Intents.all())
 
 
