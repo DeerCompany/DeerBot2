@@ -1,4 +1,4 @@
-import discord, os, urllib.request, re, asyncio
+import discord, asyncio
 from discord.ext import commands
 
 class FILTERS():
