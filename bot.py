@@ -28,7 +28,6 @@ async def check_domains(link):
 @bot.command()
 async def play(ctx, *, command = None):
     name = ctx.channel.name
-    print(name)
     if name == "music" or "тест":
         global server, server_id, name_channel
         author = ctx.author
