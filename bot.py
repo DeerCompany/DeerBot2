@@ -3,10 +3,10 @@ from discord.ext import commands
 from config import config
 from pytube import YouTube
 from urllib.parse import quote 
-from filters import FILTERS
-from ssp import SSP
-from voice import VOICE
-from clear import CLEAR
+from classes.filters import FILTERS
+from classes.ssp import SSP
+from classes.voice import VOICE
+from classes.clear import CLEAR
 
 bot = commands.Bot(command_prefix=config['prefix'], intents=discord.Intents.all())
 
@@ -28,7 +28,7 @@ async def check_domains(link):
 @bot.command()
 async def play(ctx, *, command = None):
     name = ctx.channel.name
-    if name == "music":
+    if name == "music" or "тест":
         global server, server_id, name_channel
         author = ctx.author
         if command == None:
