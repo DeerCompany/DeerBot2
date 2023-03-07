@@ -20,7 +20,6 @@ class VOICE():
             server = ctx.guild
             name_channel = author.voice.channel.name
             voice_channel = discord.utils.get(server.voice_channels, name = name_channel)
-            print("Param 1")
         else:
             await ctx.channel.send(f'{author.mention}, команда не коректна!')
             return
