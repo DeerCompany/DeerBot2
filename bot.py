@@ -9,7 +9,7 @@ from classes.clear import CLEAR
 
 bot = commands.Bot(command_prefix=config['prefix'], intents=discord.Intents.all())
 
-
+#ccccc
 # Music
 @bot.event
 async def on_ready():
