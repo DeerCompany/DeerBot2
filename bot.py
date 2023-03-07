@@ -3,13 +3,13 @@ from discord.ext import commands
 from config import config
 from pytube import YouTube
 from urllib.parse import quote 
-from classes.ssp import SSP
-from classes.voice import VOICE
-from classes.clear import CLEAR
+from filters import FILTERS
+from ssp import SSP
+from voice import VOICE
+from clear import CLEAR
 
 bot = commands.Bot(command_prefix=config['prefix'], intents=discord.Intents.all())
 
-#ccccc
 # Music
 @bot.event
 async def on_ready():
@@ -28,7 +28,7 @@ async def check_domains(link):
 @bot.command()
 async def play(ctx, *, command = None):
     name = ctx.channel.name
-    if name == "music" or "тест":
+    if name == "music":
         global server, server_id, name_channel
         author = ctx.author
         if command == None:
@@ -95,6 +95,7 @@ async def play(ctx, *, command = None):
     else:
        print(f"Команда не може виконатися у каналі {name}!")
 
+
 @bot.command()
 async def leave(ctx):
     global server, name_channel
@@ -129,24 +130,9 @@ async def stop(ctx):
 
 
 #Filter
-words = ['лох', 'криса', 'бан']
-answer = ['га']
-
 @bot.event
 async def on_message(message):
-    await bot.process_commands(message)
-    role = discord.utils.get(message.guild.roles, name='mute')
-    msg = message.content.lower()
-
-    if msg in words:
-        await message.delete()
-        await message.channel.send(f'{message.author}, мут. Причина мат!')
-        await message.author.add_roles(role)
-        await asyncio.sleep(60)
-        await message.author.remove_roles(role)
-
-    if msg in answer:
-        await message.channel.send(f'{message.author.mention} Ногаааааааааааааа!')
+   await FILTERS().filters(message, bot)
 
 
 #Clear chat
@@ -160,7 +146,6 @@ async def clear_all(ctx):
 #@commands.has_any_role('BomBitOs', 'King')
 async def clear(ctx, command = None):
     await CLEAR().clear(ctx, command)
-
 
 
 #Text to Voice message
