@@ -1,4 +1,4 @@
-import discord, os, urllib.request, re, asyncio
+import discord, os, urllib.request, re
 from discord.ext import commands
 from pytube import YouTube
 from urllib.parse import quote 
@@ -10,9 +10,8 @@ class MUSIC():
 
     server, server_id, name_channel = None, None, None
 
-
-
     async def play(self, ctx, command, bot):
+        print(ctx)
         domains = ['https://www.youtube.com/', 'http://www.youtube.com/', 'https://youtu.be/', 'http://youtu.be/']
         async def check_domains(link):
             for x in domains:
@@ -28,8 +27,9 @@ class MUSIC():
                 server = ctx.guild
                 name_channel = author.voice.channel.name
                 voice_channel = discord.utils.get(server.voice_channels, name = name_channel)
-
+            print(command)
             params = command.split('!play')
+            
             search_keyword = command
             html = urllib.request.urlopen("https://www.youtube.com/results?search_query=" + quote(search_keyword))
             video_ids = re.findall(r"watch\?v=(\S{11})", html.read().decode())
@@ -74,7 +74,7 @@ class MUSIC():
                             os.remove('sound/song.mp3')
                 except PermissionError:
                     await ctx.channel.send('Недостаньо прав для видалення!')
-
+                print(source)
                 url = str([source])
                 yt = YouTube(url)
                 video = yt.streams.filter(only_audio=True).first()

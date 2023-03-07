@@ -1,8 +1,6 @@
-import discord, os, urllib.request, re, asyncio
+import discord
 from discord.ext import commands
 from config import config
-from pytube import YouTube
-from urllib.parse import quote 
 from classes.music import MUSIC
 from classes.filters import FILTERS
 from classes.ssp import SSP
@@ -11,7 +9,7 @@ from classes.clear import CLEAR
 
 bot = commands.Bot(command_prefix=config['prefix'], intents=discord.Intents.all())
 
-# Music
+
 @bot.event
 async def on_ready():
     print("Bot online!")
@@ -19,23 +17,24 @@ async def on_ready():
 
 #Play
 @bot.command()
-async def play(ctx, command = None):
+async def play(ctx, *, command = None):
+    print(ctx, command)
     await MUSIC().play(ctx, command, bot)
 
 @bot.command()
-async def leave(ctx, command = None):
+async def leave(ctx):
     await MUSIC().leave(ctx, bot)
 
 @bot.command()
-async def pause(ctx, command = None):
+async def pause(ctx):
     await MUSIC().pause(ctx, bot)
 
 @bot.command()
-async def resume(ctx, command = None):
+async def resume(ctx):
     await MUSIC().resume(ctx, bot)
 
 @bot.command()
-async def stop(ctx, command = None):
+async def stop(ctx):
     await MUSIC().stop(bot)
 
 
