@@ -18,6 +18,7 @@ async def on_message(message):
    
     f.write(f'{time}   {message.author} в {message.channel}: {message.content}\n') 
 
+
     @bot.event
     async def on_ready():
         print("Bot online!")
