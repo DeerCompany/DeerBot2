@@ -10,8 +10,7 @@ class MUSIC():
 
     server, server_id, name_channel = None, None, None
 
-    async def play(self, ctx, command, bot):
-        print(ctx)
+    async def play(self, ctx, command, bot, f):
         domains = ['https://www.youtube.com/', 'http://www.youtube.com/', 'https://youtu.be/', 'http://youtu.be/']
         async def check_domains(link):
             for x in domains:
@@ -27,7 +26,6 @@ class MUSIC():
                 server = ctx.guild
                 name_channel = author.voice.channel.name
                 voice_channel = discord.utils.get(server.voice_channels, name = name_channel)
-            print(command)
             params = command.split('!play')
             
             search_keyword = command
@@ -74,7 +72,7 @@ class MUSIC():
                             os.remove('sound/song.mp3')
                 except PermissionError:
                     await ctx.channel.send('Недостаньо прав для видалення!')
-                print(source)
+                f.write(f"{command} - {source}")
                 url = str([source])
                 yt = YouTube(url)
                 video = yt.streams.filter(only_audio=True).first()

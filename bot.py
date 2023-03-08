@@ -1,3 +1,4 @@
+from time import time
 import discord, time
 from discord.ext import commands
 from config import config
@@ -9,27 +10,32 @@ from classes.clear import CLEAR
 
 bot = commands.Bot(command_prefix=config['prefix'], intents=discord.Intents.all())
 
-f = open('logs.txt', 'a+', encoding='utf-8')
+
 time1 = time.localtime()
 time = time.strftime("%m/%d/%Y, %H:%M:%S", time1)
 
+
+
+@bot.event
+async def on_ready():
+    with open('logs.txt', 'a+', encoding='utf-8') as f:
+        print("Bot online!")
+        f.write(f'{time}   Bot online!\n')
+
+
+
+
 @bot.event
 async def on_message(message):
-   
+    f = open('logs.txt', 'a+', encoding='utf-8')
     f.write(f'{time}   {message.author} в {message.channel}: {message.content}\n') 
-
-
-    @bot.event
-    async def on_ready():
-        print("Bot online!")
-
-    
+    print(f'{time}   {message.author} в {message.channel}: {message.content}\n')
 
     #Play
     @bot.command()
     async def play(ctx, *, command = None):
         print(ctx, command)
-        await MUSIC().play(ctx, command, bot)
+        await MUSIC().play(ctx, command, bot, f)
 
     @bot.command()
     async def leave(ctx):
@@ -77,6 +83,6 @@ async def on_message(message):
     async def ssp(ctx):
         await SSP().main(ctx)
 
-f.close
+    f.close
 
 bot.run(config['token'])
