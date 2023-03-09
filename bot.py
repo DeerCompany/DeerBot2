@@ -11,6 +11,7 @@ from classes.logs import LOGS
 
 bot = commands.Bot(command_prefix=config['prefix'], intents=discord.Intents.all())
 
+
 @bot.event
 async def on_ready():
     await LOGS().on_message("Bot online!")
