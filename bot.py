@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-from config import config
+from ..DeerHub.config import config
 from classes.music import MUSIC
 from classes.filters import FILTERS
 from classes.ssp import SSP
