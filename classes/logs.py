@@ -6,10 +6,17 @@ class LOGS():
         time1 = time.strftime("%d.%m.%Y, %H:%M:%S", time.localtime())
         data = ""
         for datas in range(10):  data = data + time1[datas]
-        f = open(f"logs/logs {data}", 'a+', encoding='utf-8')
+        f = open(f"logs/logs {data}.txt", 'a+', encoding='utf-8')
         self.time = time1
         self.f = f
         f.close
+
+    def tim(self):
+        time1 = time.strftime("%d.%m.%Y, %H:%M:%S", time.localtime())
+        data = ""
+        for datas in range(10):  data = data + time1[datas]
+        return(time1)
+
 
     async def on_message(self, message):
         try:

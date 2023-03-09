@@ -1,4 +1,4 @@
-import discord, sys
+import discord, sys, time
 from discord.ext import commands
 sys.path.insert(0, 'C:/Users/taras/OneDrive/Документи/python/deerhub')
 from config import config
@@ -8,6 +8,7 @@ from classes.ssp import SSP
 from classes.voice import VOICE
 from classes.clear import CLEAR
 from classes.logs import LOGS
+from classes.send_mail import MAIL
 
 bot = commands.Bot(command_prefix=config['prefix'], intents=discord.Intents.all())
 
@@ -16,6 +17,15 @@ bot = commands.Bot(command_prefix=config['prefix'], intents=discord.Intents.all(
 async def on_ready():
     await LOGS().on_message("Bot online!")
     print("Bot online!")
+
+    
+    x = "00", "05", "10", "15", "20", "19"
+    while True:
+        data = (LOGS().tim())
+        n = (data[12]+data[13])
+        if n in x:
+            MAIL().send_email()
+
 
 
 @bot.event
