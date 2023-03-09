@@ -1,6 +1,7 @@
-import discord
+import discord, sys
 from discord.ext import commands
-from ..DeerHub.config import config
+sys.path.insert(0, 'C:/Users/taras/OneDrive/Документи/python/deerhub')
+from config import config
 from classes.music import MUSIC
 from classes.filters import FILTERS
 from classes.ssp import SSP
