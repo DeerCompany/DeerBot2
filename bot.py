@@ -11,7 +11,7 @@ from classes.clear import CLEAR
 bot = commands.Bot(command_prefix=config['prefix'], intents=discord.Intents.all())
 
 
-time1 = time.localtime()a
+time1 = time.localtime()
 time = time.strftime("%m/%d/%Y, %H:%M:%S", time1)
 
 
