@@ -1,4 +1,4 @@
 config = {
     "prefix": "!",
-    "token": "MTAyODMzNTgyNTU1MDg0ODEyMA.GHeOgh.muR6QA2TsVloA8qN4Hgj-lUknABzQAZ3zzsM14",
+    "token": "MTA3NzAwNTQ0OTA5MTYyOTEyNg.GVJ0_l.MQpamU4lBBItPCdcOm3tVWvi3Zi6MAYhJn8-7g",
 }

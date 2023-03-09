@@ -1,5 +1,4 @@
-from time import time
-import discord, time
+import discord
 from discord.ext import commands
 from config import config
 from classes.music import MUSIC
@@ -7,35 +6,32 @@ from classes.filters import FILTERS
 from classes.ssp import SSP
 from classes.voice import VOICE
 from classes.clear import CLEAR
+from classes.logs import LOGS
 
 bot = commands.Bot(command_prefix=config['prefix'], intents=discord.Intents.all())
-
-
-time1 = time.localtime()
-time = time.strftime("%m/%d/%Y, %H:%M:%S", time1)
-
-
-f = open('logs.txt', 'a+', encoding='utf-8')
 
 @bot.event
 async def on_ready():
     print("Bot online!")
-    f.write(f'{time}   Bot online!\n')
 
 
+@bot.event
+async def on_message(message):
+    #Filter
+    await FILTERS().filters(message, bot)
+    
+    #Logs
+    await LOGS().message_logs(message)
 
+@bot.event
+async def on_voice_state_update(member, before, after):
+      await LOGS().voice_logs(member, before, after)
 
-# @bot.event
-# async def on_message(message):
-#     f = open('logs.txt', 'a+', encoding='utf-8')
-#     f.write(f'{time}   {message.author} в {message.channel}: {message.content}\n') 
-#     print(f'{time}   {message.author} в {message.channel}: {message.content}\n')
-
-    #Play
+#Play
 @bot.command()
 async def play(ctx, *, command = None):
     print(ctx, command)
-    await MUSIC().play(ctx, command, bot, f)
+    await MUSIC().play(ctx, command, bot)
 
 @bot.command()
 async def leave(ctx):
@@ -53,26 +49,14 @@ async def resume(ctx):
 async def stop(ctx):
     await MUSIC().stop(bot)
 
-
-#Filter
-@bot.event
-async def on_message(message):
-    f.write(f'{time}   {message.author} в {message.channel}: {message.content}\n')
-    await FILTERS().filters(message, bot)
-
-
 #Clear chat
 @bot.command()
-#@commands.has_any_role('BomBitOs', 'King')
 async def clear_all(ctx):
     await CLEAR().clear_all(ctx)
 
-
 @bot.command()
-#@commands.has_any_role('BomBitOs', 'King')
 async def clear(ctx, command = None):
     await CLEAR().clear(ctx, command)
-
 
 #Text to Voice message
 @bot.command()
@@ -83,16 +67,5 @@ async def voice(ctx, *, command = None):
 @bot.command()
 async def ssp(ctx):
     await SSP().main(ctx)
-
-
-
-@bot.event
-async def on_voice_state_update(member, before, after):
-    id = 771780215751966770
-    if before.channel != id and after.channel is not None:
-        if after.channel.id == id:
-            f.write(f"{time}   {member} зайшов в Олені говорять\n")
-
-f.close
 
 bot.run(config['token'])
