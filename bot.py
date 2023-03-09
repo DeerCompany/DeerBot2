@@ -19,7 +19,7 @@ async def on_ready():
     print("Bot online!")
 
     
-    x = "00", "05", "10", "15", "20", "19"
+    x = "00", "05", "10", "15", "20"
     while True:
         data = (LOGS().tim())
         n = (data[12]+data[13])
