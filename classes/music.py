@@ -83,7 +83,7 @@ class MUSIC():
                 video = yt.streams.filter(only_audio=True).first()
                 downloaded_file = video.download()
                 os.rename(downloaded_file, 'sound/song.mp3')
-                print("Done") 
+                await LOGS().on_message("Done")
 
                 voice.play(discord.FFmpegPCMAudio(executable='ffmpeg/bin/ffmpeg.exe', source='sound/song.mp3'))
             else:
