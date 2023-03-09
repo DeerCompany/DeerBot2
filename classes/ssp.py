@@ -41,7 +41,6 @@ class SSP():
                 await message.channel.send("Нічия")
             elif players2 == "Scissors":
                 await message.channel.send(f"{keys[1]} виграв.")
-
             else:
                 await message.channel.send(f"{keys[0]} виграв.")
 

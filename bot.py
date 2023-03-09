@@ -12,6 +12,7 @@ bot = commands.Bot(command_prefix=config['prefix'], intents=discord.Intents.all(
 
 @bot.event
 async def on_ready():
+    await LOGS().on_message("Bot online!")
     print("Bot online!")
 
 
@@ -21,16 +22,15 @@ async def on_message(message):
     await FILTERS().filters(message, bot)
     
     #Logs
-    await LOGS().message_logs(message)
+    await LOGS().on_message(message)
 
 @bot.event
 async def on_voice_state_update(member, before, after):
-      await LOGS().voice_logs(member, before, after)
+    await LOGS().voice_logs(member, before, after)
 
 #Play
 @bot.command()
 async def play(ctx, *, command = None):
-    print(ctx, command)
     await MUSIC().play(ctx, command, bot)
 
 @bot.command()

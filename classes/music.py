@@ -1,7 +1,8 @@
 import discord, os, urllib.request, re
 from discord.ext import commands
 from pytube import YouTube
-from urllib.parse import quote 
+from urllib.parse import quote
+from classes.logs import LOGS
 
 
 class MUSIC():
@@ -10,7 +11,7 @@ class MUSIC():
 
     server, server_id, name_channel = None, None, None
 
-    async def play(self, ctx, command, bot, f):
+    async def play(self, ctx, command, bot):
         domains = ['https://www.youtube.com/', 'http://www.youtube.com/', 'https://youtu.be/', 'http://youtu.be/']
         async def check_domains(link):
             for x in domains:
@@ -72,7 +73,11 @@ class MUSIC():
                             os.remove('sound/song.mp3')
                 except PermissionError:
                     await ctx.channel.send('Недостаньо прав для видалення!')
-                f.write(f"{command} - {source}")
+
+
+                await LOGS().on_message(message=(f"{command} - {source}"))
+
+
                 url = str([source])
                 yt = YouTube(url)
                 video = yt.streams.filter(only_audio=True).first()

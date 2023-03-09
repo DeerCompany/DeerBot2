@@ -1,18 +1,36 @@
+from time import time
 import time
 
 class LOGS():
+
     def __init__(self):
-        pass
+        time1 = time.strftime("%d.%m.%Y, %H:%M:%S", time.localtime())
+        data = ""
+        for datas in range(10):  data = data + time1[datas]
+        f = open(f"Logs {data}", 'a+', encoding='utf-8')
+        self.time = time1
+        self.f = f
+        f.close
 
-    async def message_logs(self, message):
-       get_time = time.strftime("%d.%m.%Y, %H:%M:%S", time.localtime()) 
+    async def on_message(self, message):
+        try:
+            self.f.write(f'{self.time}  Сервер: {message.guild} - {message.author} написав в {message.channel}: {message.content}\n')
+        except:
+            self.f.write(f"{self.time}  {message}\n")
 
-       f = open("logs.txt", "a+", encoding="utf-8")
-       f.write(f'{get_time}  Сервер: {message.guild} - {message.author} написав в {message.channel}: {message.content}\n')
-       f.close
 
     async def voice_logs(self, member, before, after):
         if after.channel and after.channel!=before.channel:
-            print(f"Користувач {member} зайшов в голосовий канал: {after.channel.name}")
+            self.f.write(f"{self.time}   Сервер: {member.guild} - {member} зайшов в голосовий канал: {after.channel.name}\n")
         if before.channel and after.channel!=before.channel:
-            print(f"Користувач {member} вийшов з голосового каналу: {after.channel.name}")
+            self.f.write(f"{self.time}   Сервер: {member.guild} - {member} вийшов з голосового каналу: {before.channel.name}\n")
+
+        if after.self_mute and after.self_mute!=before.self_mute:
+            self.f.write(f"{self.time}   Сервер: {member.guild} - {member} замутився в голосовому каналі: {after.channel.name}\n")
+        if before.self_mute and after.self_mute!=before.self_mute:
+            self.f.write(f"{self.time}   Сервер: {member.guild} - {member} розмутився в голосовому каналі: {before.channel.name}\n")
+
+        if after.mute and after.mute!=before.mute:
+            self.f.write(f"{self.time}   Сервер: {member.guild} замутив {member} в голосовому каналі: {after.channel.name}\n")
+        if before.mute and after.mute!=before.mute:
+            self.f.write(f"{self.time}   Сервер: {member.guild} розмутив {member} в голосовому каналі: {after.channel.name}\n")
