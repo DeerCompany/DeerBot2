@@ -15,74 +15,84 @@ time1 = time.localtime()
 time = time.strftime("%m/%d/%Y, %H:%M:%S", time1)
 
 
+f = open('logs.txt', 'a+', encoding='utf-8')
 
 @bot.event
 async def on_ready():
-    with open('logs.txt', 'a+', encoding='utf-8') as f:
-        print("Bot online!")
-        f.write(f'{time}   Bot online!\n')
+    print("Bot online!")
+    f.write(f'{time}   Bot online!\n')
 
+
+
+
+# @bot.event
+# async def on_message(message):
+#     f = open('logs.txt', 'a+', encoding='utf-8')
+#     f.write(f'{time}   {message.author} в {message.channel}: {message.content}\n') 
+#     print(f'{time}   {message.author} в {message.channel}: {message.content}\n')
+
+    #Play
+@bot.command()
+async def play(ctx, *, command = None):
+    print(ctx, command)
+    await MUSIC().play(ctx, command, bot, f)
+
+@bot.command()
+async def leave(ctx):
+    await MUSIC().leave(ctx, bot)
+
+@bot.command()
+async def pause(ctx):
+    await MUSIC().pause(ctx, bot)
+
+@bot.command()
+async def resume(ctx):
+    await MUSIC().resume(ctx, bot)
+
+@bot.command()
+async def stop(ctx):
+    await MUSIC().stop(bot)
+
+
+#Filter
+@bot.event
+async def on_message(message):
+    f.write(f'{time}   {message.author} в {message.channel}: {message.content}\n')
+    await FILTERS().filters(message, bot)
+
+
+#Clear chat
+@bot.command()
+#@commands.has_any_role('BomBitOs', 'King')
+async def clear_all(ctx):
+    await CLEAR().clear_all(ctx)
+
+
+@bot.command()
+#@commands.has_any_role('BomBitOs', 'King')
+async def clear(ctx, command = None):
+    await CLEAR().clear(ctx, command)
+
+
+#Text to Voice message
+@bot.command()
+async def voice(ctx, *, command = None):
+    await VOICE().main(ctx, bot, command)
+
+#Game
+@bot.command()
+async def ssp(ctx):
+    await SSP().main(ctx)
 
 
 
 @bot.event
-async def on_message(message):
-    f = open('logs.txt', 'a+', encoding='utf-8')
-    f.write(f'{time}   {message.author} в {message.channel}: {message.content}\n') 
-    print(f'{time}   {message.author} в {message.channel}: {message.content}\n')
+async def on_voice_state_update(member, before, after):
+    id = 771780215751966770
+    if before.channel != id and after.channel is not None:
+        if after.channel.id == id:
+            f.write(f"{time}   {member} зайшов в Олені говорять\n")
 
-    #Play
-    @bot.command()
-    async def play(ctx, *, command = None):
-        print(ctx, command)
-        await MUSIC().play(ctx, command, bot, f)
-
-    @bot.command()
-    async def leave(ctx):
-        await MUSIC().leave(ctx, bot)
-
-    @bot.command()
-    async def pause(ctx):
-        await MUSIC().pause(ctx, bot)
-
-    @bot.command()
-    async def resume(ctx):
-        await MUSIC().resume(ctx, bot)
-
-    @bot.command()
-    async def stop(ctx):
-        await MUSIC().stop(bot)
-
-
-    #Filter
-    @bot.event
-    async def on_message(message):
-        await FILTERS().filters(message, bot)
-
-
-    #Clear chat
-    @bot.command()
-    #@commands.has_any_role('BomBitOs', 'King')
-    async def clear_all(ctx):
-        await CLEAR().clear_all(ctx)
-
-
-    @bot.command()
-    #@commands.has_any_role('BomBitOs', 'King')
-    async def clear(ctx, command = None):
-        await CLEAR().clear(ctx, command)
-
-
-    #Text to Voice message
-    @bot.command()
-    async def voice(ctx, *, command = None):
-        await VOICE().main(ctx, bot, command)
-
-    #Game
-    @bot.command()
-    async def ssp(ctx):
-        await SSP().main(ctx)
-
-    f.close
+f.close
 
 bot.run(config['token'])
