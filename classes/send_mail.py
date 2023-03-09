@@ -30,5 +30,4 @@ class MAIL():
         message.attach(attachment)
 
         server.sendmail('deercompany1122@gmail.com', 'deercompany1122@gmail.com', message.as_string())
-
         server.quit()

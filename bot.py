@@ -1,5 +1,6 @@
-import discord, sys, time
+import discord, sys, time, asyncio
 from discord.ext import commands
+sys.path.insert(0, 'C:/Users/taras/OneDrive/Документи/python/deerhub')
 from config import config
 from classes.music import MUSIC
 from classes.filters import FILTERS
@@ -16,15 +17,12 @@ bot = commands.Bot(command_prefix=config['prefix'], intents=discord.Intents.all(
 async def on_ready():
     await LOGS().on_message("Bot online!")
     print("Bot online!")
-
     
-    x = "00:00:00", "05:00:00", "10:00:00", "15:00:00", "20:00:00", "19:43:00"
     while True:
-        data = (LOGS().tim())
-        n = (data[12]+data[13]+data[14]+data[15]+data[16]+data[17]+data[18]+data[19])
-        if n in x:
-            MAIL().send_email()
+        MAIL().send_email()
+        await asyncio.sleep(18000)# 5 годин
 
+  
 
 
 @bot.event
