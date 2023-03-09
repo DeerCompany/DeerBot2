@@ -22,7 +22,6 @@ async def on_ready():
 async def on_message(message):
     #Filter
     await FILTERS().filters(message, bot)
-    
     #Logs
     await LOGS().on_message(message)
 
