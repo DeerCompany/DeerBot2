@@ -19,12 +19,13 @@ async def on_ready():
     print("Bot online!")
 
     
-    x = "00", "05", "10", "15", "20"
+    x = "00:00", "05:00", "10:00", "15:00", "20:00"
     while True:
         data = (LOGS().tim())
-        n = (data[12]+data[13])
+        n = (data[12]+data[13]+data[14]+data[15]+data[16])
         if n in x:
             MAIL().send_email()
+            time.pause(61)
 
 
 
