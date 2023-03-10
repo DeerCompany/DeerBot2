@@ -12,17 +12,16 @@ from classes.send_mail import MAIL
 
 bot = commands.Bot(command_prefix=config['prefix'], intents=discord.Intents.all())
 
+async def send_logs():
+    while True:
+        MAIL().send_email()
+        await asyncio.sleep(18000) #5 годин
 
 @bot.event
 async def on_ready():
     await LOGS().on_message("Bot online!")
     print("Bot online!")
-    
-    while True:
-        MAIL().send_email()
-        await asyncio.sleep(18000) #5 годин
-
-  
+    await send_logs()
 
 
 @bot.event
@@ -31,6 +30,9 @@ async def on_message(message):
     await FILTERS().filters(message, bot)
     #Logs
     await LOGS().on_message(message)
+    if message.content == ("*send logs"):
+        await send_logs()
+
 
 @bot.event
 async def on_voice_state_update(member, before, after):
@@ -39,7 +41,7 @@ async def on_voice_state_update(member, before, after):
 #Play
 @bot.command()
 async def play(ctx, *, command = None):
-    await MUSIC().play(ctx, command, bot)
+    await MUSIC().play(ctx, command)
 
 @bot.command()
 async def leave(ctx):
@@ -57,10 +59,10 @@ async def resume(ctx):
 async def stop(ctx):
     await MUSIC().stop(bot)
 
+
 @bot.command()
 async def repeat(ctx):
-    await MUSIC().repeat(ctx, bot)
-
+    await MUSIC().repeat(ctx)
 
 #Clear chat
 @bot.command()
