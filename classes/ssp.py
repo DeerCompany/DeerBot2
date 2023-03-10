@@ -56,7 +56,7 @@ class SSP():
             players.clear() 
 
     
-    async def main(self, ctx):
+    async def ssp(self, ctx):
         message=ctx
         
         n = 2  # Кількість гравців

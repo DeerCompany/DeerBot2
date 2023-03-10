@@ -20,7 +20,7 @@ async def on_ready():
     
     while True:
         MAIL().send_email()
-        await asyncio.sleep(18000)# 5 годин
+        await asyncio.sleep(18000) #5 годин
 
   
 
@@ -57,6 +57,11 @@ async def resume(ctx):
 async def stop(ctx):
     await MUSIC().stop(bot)
 
+@bot.command()
+async def repeat(ctx):
+    await MUSIC().repeat(ctx, bot)
+
+
 #Clear chat
 @bot.command()
 async def clear_all(ctx):
@@ -69,11 +74,11 @@ async def clear(ctx, command = None):
 #Text to Voice message
 @bot.command()
 async def voice(ctx, *, command = None):
-    await VOICE().main(ctx, bot, command)
+    await VOICE().voice(ctx, bot, command)
 
 #Game
 @bot.command()
 async def ssp(ctx):
-    await SSP().main(ctx)
+    await SSP().ssp(ctx)
 
 bot.run(config['token'])

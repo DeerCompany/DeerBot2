@@ -7,10 +7,11 @@ from classes.logs import LOGS
 
 class MUSIC():
     def __init__(self):
-        pass
+        source = ""
+        self.source = source
 
-    server, server_id, name_channel = None, None, None
 
+    server, server_id, name_channel =  None, None, None
     async def play(self, ctx, command, bot):
         domains = ['https://www.youtube.com/', 'http://www.youtube.com/', 'https://youtu.be/', 'http://youtu.be/']
         async def check_domains(link):
@@ -21,7 +22,7 @@ class MUSIC():
         
         name = ctx.channel.name
         if name == "music" or "тест":
-            global server, server_id, name_channel
+            global server, server_id, name_channel, source
             author = ctx.author
             if command == None:
                 server = ctx.guild
@@ -76,9 +77,9 @@ class MUSIC():
 
 
                 await LOGS().on_message(message=(f"{command} - {source}"))
-
-
+                
                 url = str([source])
+                
                 yt = YouTube(url)
                 video = yt.streams.filter(only_audio=True).first()
                 downloaded_file = video.download()
@@ -121,3 +122,6 @@ class MUSIC():
     async def stop(self, bot):
         voice = discord.utils.get(bot.voice_clients, guild = server)
         voice.stop()
+
+    async def repeat(self, ctx, bot):
+        await MUSIC().play(ctx, command=source, bot=bot)

@@ -7,7 +7,7 @@ class VOICE():
     def __init__(self):
         pass
 
-    async def main(self, ctx, bot, command = None):
+    async def voice(self, ctx, bot, command = None):
         global server, server_id, name_channel
         author = ctx.author
 
