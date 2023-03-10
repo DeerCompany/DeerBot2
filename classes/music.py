@@ -60,8 +60,6 @@ class MUSIC():
                             await ctx.channel.send('Вже підключений!')
 
 
-                            
-                    
                 yt = YouTube(str([source]))
                 video = yt.streams.filter(only_audio=True).first()
                 downloaded_file = video.download()
@@ -87,6 +85,7 @@ class MUSIC():
 
         else:
             print(f"Команда не може виконатися у каналі {name}!")
+
 
 
 
