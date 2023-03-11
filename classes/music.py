@@ -10,8 +10,10 @@ class MUSIC():
         pass
 
     server, server_id, name_channel =  None, None, None
-    global music_list
-    music_list = ["https://www.youtube.com/watch?v=oMfMUfgjiLg&ab_channel=GunsN%27Roses-Topic"]
+    global music_list, out_line
+    #music_list = ["https://www.youtube.com/watch?v=oMfMUfgjiLg&ab_channel=GunsN%27Roses-Topic", "https://www.youtube.com/watch?v=oRdxUFDoQe0&ab_channel=michaeljacksonVEVO", "https://www.youtube.com/watch?v=hTWKbfoikeg&ab_channel=NirvanaVEVO"]
+    music_list=[]
+    out_line = []
     async def play(self, ctx, command):
         domains = ['https://www.youtube.com/', 'http://www.youtube.com/', 'https://youtu.be/', 'http://youtu.be/']
         async def check_domains(link):
@@ -27,7 +29,7 @@ class MUSIC():
             if command == None:
                 server = ctx.guild
                 name_channel = author.voice.channel.name
-            
+
             html = urllib.request.urlopen("https://www.youtube.com/results?search_query=" + quote(command))
             video_ids = re.findall(r"watch\?v=(\S{11})", html.read().decode())
             source = "https://www.youtube.com/watch?v=" + video_ids[0]
@@ -38,7 +40,6 @@ class MUSIC():
                 await ctx.channel.send(f'{author.mention}, команда не коректна!')
                 return
             
-
             if source.startswith('http'):
                 if not await check_domains(source):
                     await ctx.channel.send(f'{author.mention}, посилання некоректне!')
@@ -51,7 +52,8 @@ class MUSIC():
                     if vc.is_playing():
                         await ctx.channel.send('Музика вже грає!')
                         music_list.append(source)
-                        print(music_list)
+                        #print(music_list)
+                        await ctx.channel.send(f'Добавив в чергу  {command}')
                         return
                     else:
                         if command == command:
@@ -68,21 +70,24 @@ class MUSIC():
 
                 await LOGS().on_message(message=(f"Скачано  {command} - {source}"))
 
-                
 
                 vc.play(discord.FFmpegPCMAudio(executable='ffmpeg/bin/ffmpeg.exe', source='sound/music.mp3'))
             else:
                 vc.play(discord.FFmpegPCMAudio(executable='ffmpeg/bin/ffmpeg.exe',  source=f'{source}'))
 
 
-            # while vc.is_playing():
-            #     await asyncio.sleep(2)
-            # if not vc.is_paused():
-            #     if len(music_list) > 0:
-            #         line = music_list[0]
-            #         music_list = music_list[1:]
-            #         await MUSIC().play(ctx, line)
-
+            while vc.is_playing():
+                if len(out_line) >= 2:
+                    out_line.pop(1)
+                await asyncio.sleep(2)
+            if not vc.is_paused():
+                if len(music_list) > 0:
+                    m = music_list[0]
+                    out_line.append(music_list[0])
+                    music_list.pop(0)
+                    await MUSIC().play(ctx, m)
+                else:
+                    pass
         else:
             print(f"Команда не може виконатися у каналі {name}!")
 
@@ -117,3 +122,17 @@ class MUSIC():
 
     async def repeat(self, ctx):
         await MUSIC().play(ctx, command=source)
+
+    async def next(self, ctx, bot):
+        await MUSIC().stop(bot)
+        if len(music_list) == 0:
+            await ctx.channel.send('Черга пуста')
+        m = music_list[0]
+        out_line.append(music_list[0])
+        music_list.pop(0)
+        await MUSIC().play(ctx, m)
+
+    
+    async def back(self, ctx, bot):
+        await MUSIC().stop(bot)
+        await MUSIC().play(ctx, out_line[0])

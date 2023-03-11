@@ -13,9 +13,15 @@ from classes.send_mail import MAIL
 bot = commands.Bot(command_prefix=config['prefix'], intents=discord.Intents.all())
 
 async def send_logs():
-    while True:
+    x = "00:00", "10:00", "20:00", "16:00"
+    time1 = LOGS().tim()
+    if time1 in x:
         MAIL().send_email()
-        await asyncio.sleep(18000) #5 годин
+        time.sleep(61)
+    else:
+        await asyncio.sleep(55)
+        await send_logs()
+
 
 @bot.event
 async def on_ready():
@@ -57,12 +63,19 @@ async def resume(ctx):
 
 @bot.command()
 async def stop(ctx):
-    await MUSIC().stop(bot)
+    await MUSIC().pause(ctx, bot) #покишо так
 
 
 @bot.command()
 async def repeat(ctx):
     await MUSIC().repeat(ctx)
+
+@bot.command()
+async def next(ctx):
+    await MUSIC().next(ctx, bot)
+@bot.command()
+async def back(ctx):
+    await MUSIC().back(ctx, bot)
 
 #Clear chat
 @bot.command()
