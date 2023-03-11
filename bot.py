@@ -17,7 +17,7 @@ async def send_logs():
     time1 = LOGS().tim()
     if time1 in x:
         MAIL().send_email()
-        LOGS().on_message("Логи скинуто")
+        await LOGS().on_message("Логи скинуто")
         time.sleep(61)
     else:
         await asyncio.sleep(30)

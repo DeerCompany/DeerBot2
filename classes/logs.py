@@ -13,9 +13,9 @@ class LOGS():
 
     def tim(self):
         time1 = time.strftime("%d.%m.%Y, %H:%M:%S", time.localtime())
-        #data = ""
-        #for datas in range(10):  data = data + time1[datas]
-        return(time1)
+        time0 = ""
+        for datas in range(12, 17):  time0 = time0 + time1[datas]
+        return(time0)
 
 
     async def on_message(self, message):
