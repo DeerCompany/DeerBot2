@@ -13,15 +13,15 @@ from classes.send_mail import MAIL
 bot = commands.Bot(command_prefix=config['prefix'], intents=discord.Intents.all())
 
 async def send_logs():
-    x = "00:00", "10:00", "20:00", "16:00"
+    x = "00:00", "10:00", "20:00"
     time1 = LOGS().tim()
     if time1 in x:
         MAIL().send_email()
+        LOGS().on_message("Логи скинуто")
         time.sleep(61)
     else:
-        await asyncio.sleep(55)
+        await asyncio.sleep(30)
         await send_logs()
-
 
 @bot.event
 async def on_ready():
