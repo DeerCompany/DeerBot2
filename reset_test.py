@@ -20,7 +20,7 @@ class RESET():
         bot_thread.start()
 
         while True:
-            x = "02:00"
+            x = "04:00"
             time1 = LOGS().tim()
             if time1 in x:
                 re()
