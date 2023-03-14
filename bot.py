@@ -14,7 +14,7 @@ from classes.send_mail import MAIL
 bot = commands.Bot(command_prefix=config['prefix'], intents=discord.Intents.all())
 
 async def send_logs():
-    x = "3:58, 20:00"
+    x = "3:58", "20:00"
     time1 = LOGS().tim()
     if time1 in x:
         MAIL().send_email()

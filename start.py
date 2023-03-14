@@ -11,10 +11,11 @@ bot_thread = threading.Thread(target=run_bot)
 bot_thread.start()
 
 while True:
-    x = "02:00"
+    x = "12:47"
     time1 = LOGS().tim()
     if time1 in x:
         os.kill(process.pid, signal.SIGTERM)
+        print("bot restart")
         time.sleep(61)
         bot_thread = threading.Thread(target=run_bot)
         bot_thread.start()
